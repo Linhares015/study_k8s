@@ -1,0 +1,12 @@
+apiVersion: v1 # Itens do Kubernetes são divididos em API Groups
+kind: Pod # Tipo do recurso
+metadata: # Metadados do recurso
+  name: mysql # Nome do recurso
+spec: # Especificação do recurso
+  containers: # Lista de containers
+  - name: mysql # Nome do container
+    image: docker.io/mysql:8.3 # Imagem do container
+    resources: # Recursos do container
+      limits: # Limites de recursos
+        cpu: "0.5" # Limite de CPU
+        memory: "512Mi" # Limite de memória
