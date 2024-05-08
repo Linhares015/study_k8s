@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: git-repo-pvc
+  namespace: dev-athena
+spec:
+  storageClassName: rook-ceph-block
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi

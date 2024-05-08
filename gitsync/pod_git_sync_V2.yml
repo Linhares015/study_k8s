@@ -1,16 +1,11 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: git-sync-pod-2
+  name: git-sync-pod
 spec:
-  securityContext:
-    runAsUser: 1000  # UID do usuário
-    runAsGroup: 1000 # GID do grupo
-    fsGroup: 1000
   volumes:
     - name: git
-      persistentVolumeClaim:
-        claimName: git-repo-pvc
+      emptyDir: {}
     - name: ssh-key
       secret:
         secretName: git-ssh-key
