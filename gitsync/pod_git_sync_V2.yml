@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: git-sync-pod-2
+spec:
+  securityContext:
+    runAsUser: 1000  # UID do usuário
+    runAsGroup: 1000 # GID do grupo
+    fsGroup: 1000
+  volumes:
+    - name: git
+      persistentVolumeClaim:
+        claimName: git-repo-pvc
+    - name: ssh-key
+      secret:
+        secretName: git-ssh-key
+  containers:
+    - name: git-sync
+      image: k8s.gcr.io/git-sync/git-sync:v3.1.7
+      volumeMounts:
+        - name: git
+          mountPath: /git
+        - name: ssh-key
+          mountPath: /etc/git-secret
+          readOnly: true
+      env:
+        - name: GIT_SYNC_REPO
+          value: 'git@github.com:Linhares015/athena.git'
+        - name: GIT_SYNC_BRANCH
+          value: 'main'
+        - name: GIT_SYNC_DEST
+          value: 'git'
+        - name: GIT_SYNC_ROOT
+          value: '/git'
+        - name: GIT_SYNC_WAIT
+          value: '50'
+        - name: GIT_SYNC_ONE_TIME
+          value: 'false'
+        - name: GIT_SYNC_SSH
+          value: 'true'
+        - name: GIT_SSH_KEY_FILE
+          value: '/etc/git-secret/id_ed25519'
+        - name: GIT_KNOWN_HOSTS
+          value: 'true'
+        - name: GIT_SYNC_DEPTH
+          value: '1'
