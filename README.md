@@ -57,3 +57,7 @@ helm list
 helm status <release-name>
 helm uninstall <release-name>
 ```
+
+
+curl http://localhost:8080
+kubectl port-forward svc/airflow-web 8080:8080 -n dev-athena
