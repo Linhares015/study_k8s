@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apache-hop
+  namespace: dev-athena
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apache-hop
+  template:
+    metadata:
+      labels:
+        app: apache-hop
+    spec:
+      containers:
+      - name: hop
+        image: tiagolinhares015/apache_hop_ssh:latest
+        ports:
+        - containerPort: 8080
+        - containerPort: 22
+        command: ["/bin/sh", "-c"]
+        args:
+          - |
+            # Gerar chaves de host SSH
+            ssh-keygen -A
+            # Iniciar o serviço SSH e manter o container rodando
+            /usr/sbin/sshd -D
+        volumeMounts:
+        - name: git-ssh-key
+          mountPath: /root/.ssh
+          readOnly: true
+      volumes:
+      - name: git-ssh-key
+        secret:
+          secretName: git-ssh-key
+      restartPolicy: Always

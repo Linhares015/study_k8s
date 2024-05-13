@@ -4,8 +4,9 @@ metadata:
   name: postgres
   namespace: dev-athena
 spec:
+  type: NodePort
   ports:
     - port: 5432
+      nodePort: 30001
   selector:
     app: postgres
-  clusterIP: None

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: apache-hop
+  namespace: dev-athena
+spec:
+  selector:
+    app: apache-hop
+  ports:
+  - name: ssh
+    protocol: TCP
+    port: 22
+    targetPort: 22

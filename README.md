@@ -60,4 +60,12 @@ helm uninstall <release-name>
 
 
 curl http://localhost:8080
+
 kubectl port-forward svc/airflow-web 8080:8080 -n dev-athena
+
+kubectl port-forward svc/postgres 30001:5432 -n dev-athena
+
+ kubectl create secret generic git-ssh-key   --from-file=id_ed25519=/home/linhares/.ssh/id_ed25519   --from-file=known_hosts=/home/linhares/.ssh/known_hosts   -n dev-athena
+
+
+ hop_ssh_connection

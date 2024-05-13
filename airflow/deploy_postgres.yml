@@ -22,12 +22,25 @@ spec:
               value: airflow
             - name: POSTGRES_PASSWORD
               value: airflowpass
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+            - name: POSTGRESQL_CONF_DIR
+              value: /etc/postgresql
+            - name: PG_HBA_FILE
+              value: /etc/postgresql/pg_hba.conf
+            - name: POSTGRESQL_CONF_FILE
+              value: /etc/postgresql/postgresql.conf
           ports:
             - containerPort: 5432
           volumeMounts:
             - name: postgres-storage
               mountPath: /var/lib/postgresql/data
+            - name: config-volume
+              mountPath: /etc/postgresql
       volumes:
         - name: postgres-storage
           persistentVolumeClaim:
             claimName: postgres-pvc
+        - name: config-volume
+          configMap:
+            name: postgres-configs

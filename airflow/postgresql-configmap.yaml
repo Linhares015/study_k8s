@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-configs
+  namespace: dev-athena
+data:
+  postgresql.conf: |
+    listen_addresses = '*'
+  pg_hba.conf: |
+    # Type  Database        User            Address                 Method
+    # "local" is for Unix domain socket connections only
+    local   all             all                                     trust
+    # IPv4 local connections:
+    host    all             all             0.0.0.0/0               md5
+    # IPv6 local connections:
+    host    all             all             ::/0                    md5
