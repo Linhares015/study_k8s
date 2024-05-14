@@ -63,9 +63,23 @@ curl http://localhost:8080
 
 kubectl port-forward svc/airflow-web 8080:8080 -n dev-athena
 
-kubectl port-forward svc/postgres 30001:5432 -n dev-athena
+kubectl port-forward svc/postgres 5432:5432 -n dev-athena
 
- kubectl create secret generic git-ssh-key   --from-file=id_ed25519=/home/linhares/.ssh/id_ed25519   --from-file=known_hosts=/home/linhares/.ssh/known_hosts   -n dev-athena
+kubectl create secret generic git-ssh-key   --from-file=id_ed25519=/home/linhares/.ssh/id_ed25519   --from-file=known_hosts=/home/linhares/.ssh/known_hosts -n dev-athena
 
 
  hop_ssh_connection
+
+ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/cloud/deploy.yaml
+
+
+docker volume create --name=postgres_data --opt type=tmpfs --opt device=tmpfs --opt o=size=10g
+
+
+docker run -d \
+  --name meu_postgres \
+  -e POSTGRES_PASSWORD=minha_senha_secreta \
+  -v postgres_data:/var/lib/postgresql/data \
+  -p 5432:5432 \
+  --restart always \
+  postgres

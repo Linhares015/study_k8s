@@ -16,6 +16,13 @@ spec:
       containers:
       - name: hop
         image: tiagolinhares015/apache_hop_ssh:latest
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "1"
+          limits:
+            memory: "4Gi"
+            cpu: "2"
         ports:
         - containerPort: 8080
         - containerPort: 22
