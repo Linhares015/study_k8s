@@ -15,46 +15,32 @@ spec:
     spec:
       containers:
       - name: hop
-        image: tiagolinhares015/apache_hop_ssh:latest
-        resources:
-          requests:
-            memory: "2Gi"
-            cpu: "1"
-          limits:
-            memory: "4Gi"
-            cpu: "2"
+        image: tiagolinhares015/apache_hop_ssh_java:latest
         ports:
-        - containerPort: 8080
+        - containerPort: 8181
         - containerPort: 22
-        env:
-          - name: HOP_PROJECT_NAME
-            value: "athena"
-          - name: HOP_PROJECT_FOLDER
-            value: "/opt/dags"
-          - name: HOP_PROJECT_CONFIG
-            value: "/opt/dags/project-config.json"
-          - name: HOP_METADATA_FOLDER
-            value: "/opt/dags/metadata"
-          - name: HOP_FILE_PATH
-            value: "/opt/dags"
-          - name: HOP_LOG_LEVEL
-            value: "Detailed"
-          - name: HOP_RUN_CONFIG
-            value: "local"
         command: ["/bin/sh", "-c"]
         args:
           - |
             # Gerar chaves de host SSH
             ssh-keygen -A
-            # Iniciar o serviço SSH e manter o container rodando
-            /usr/sbin/sshd -D
+            # Iniciar o serviço SSH
+            /usr/sbin/sshd &
+            # Iniciar o Hop Server usando o arquivo de configuração do ConfigMap
+            exec /opt/hop/hop-server.sh /opt/hop/hop-server-config.xml
         volumeMounts:
+        - name: hop-config
+          mountPath: /opt/hop/hop-server-config.xml
+          subPath: hop-server-config.xml
         - name: hop-files
           mountPath: /files
         - name: git-ssh-key
           mountPath: /root/.ssh
           readOnly: true
       volumes:
+      - name: hop-config
+        configMap:
+          name: hop-server-config
       - name: hop-files
         hostPath:
           path: /opt/dags
