@@ -30,11 +30,13 @@ spec:
           - name: HOP_PROJECT_NAME
             value: "athena"
           - name: HOP_PROJECT_FOLDER
-            value: "/opt/hop/dags"
+            value: "/opt/dags"
           - name: HOP_PROJECT_CONFIG
-            value: "/opt/hop/dags/project-config.json"
+            value: "/opt/dags/project-config.json"
+          - name: HOP_METADATA_FOLDER
+            value: "/opt/dags/metadata"
           - name: HOP_FILE_PATH
-            value: "/opt/hop/dags"
+            value: "/opt/dags"
           - name: HOP_LOG_LEVEL
             value: "Detailed"
           - name: HOP_RUN_CONFIG
@@ -55,7 +57,7 @@ spec:
       volumes:
       - name: hop-files
         hostPath:
-          path: /path/to/your/local/hop/files
+          path: /opt/dags
       - name: git-ssh-key
         secret:
           secretName: git-ssh-key
