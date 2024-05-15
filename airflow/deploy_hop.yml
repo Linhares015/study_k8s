@@ -26,6 +26,19 @@ spec:
         ports:
         - containerPort: 8080
         - containerPort: 22
+        env:
+          - name: HOP_PROJECT_NAME
+            value: "athena"
+          - name: HOP_PROJECT_FOLDER
+            value: "/opt/hop/dags"
+          - name: HOP_PROJECT_CONFIG
+            value: "/opt/hop/dags/project-config.json"
+          - name: HOP_FILE_PATH
+            value: "/opt/hop/dags"
+          - name: HOP_LOG_LEVEL
+            value: "Detailed"
+          - name: HOP_RUN_CONFIG
+            value: "local"
         command: ["/bin/sh", "-c"]
         args:
           - |
@@ -34,10 +47,15 @@ spec:
             # Iniciar o serviço SSH e manter o container rodando
             /usr/sbin/sshd -D
         volumeMounts:
+        - name: hop-files
+          mountPath: /files
         - name: git-ssh-key
           mountPath: /root/.ssh
           readOnly: true
       volumes:
+      - name: hop-files
+        hostPath:
+          path: /path/to/your/local/hop/files
       - name: git-ssh-key
         secret:
           secretName: git-ssh-key
