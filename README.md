@@ -96,3 +96,4 @@ docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=SuaSenha@123' \
   -p 1433:1433 --name sqlserver \
   -d mcr.microsoft.com/mssql/server:2019-latest
 
+minikube start --driver=docker --cpus=5 --memory=20096
