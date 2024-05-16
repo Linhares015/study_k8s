@@ -84,5 +84,15 @@ docker run -d \
   --restart always \
   postgres
 
+docker run -d \
+  --name meu_mysql \
+  -e MYSQL_ROOT_PASSWORD=minha_senha_secreta \
+  -v mysql_data:/var/lib/mysql \
+  -p 3306:3306 \
+  --restart always \
+  mysql:latest
 
-10.244.0.28
+docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=SuaSenha@123' \
+  -p 1433:1433 --name sqlserver \
+  -d mcr.microsoft.com/mssql/server:2019-latest
+

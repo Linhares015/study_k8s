@@ -1,0 +1,88 @@
+# ./athena/airbyte/values.yaml
+
+global:
+  postgresql:
+    postgresqlUsername: airbyte
+    postgresqlPassword: airbyte
+    postgresqlDatabase: airbyte
+    postgresqlHost: airbyte-postgresql.dev-athena.svc.cluster.local
+    postgresqlPort: 5432
+
+airbyte:
+  config:
+    airbyteDatabase: postgresql
+    databaseUser: airbyte
+    databasePassword: airbyte
+    databaseHost: airbyte-postgresql
+    databasePort: 5432
+    databaseName: airbyte
+
+  minio:
+    enabled: true
+    accessKey: minioadmin
+    secretKey: minioadmin
+    storage:
+      size: 10Gi
+    persistence:
+      enabled: true
+      size: 10Gi
+
+  resources:
+    requests:
+      memory: "1Gi"
+      cpu: "500m"
+    limits:
+      memory: "2Gi"
+      cpu: "1"
+
+  worker:
+    resources:
+      requests:
+        memory: "512Mi"
+        cpu: "250m"
+      limits:
+        memory: "1Gi"
+        cpu: "500m"
+
+  server:
+    resources:
+      requests:
+        memory: "1Gi"
+        cpu: "500m"
+      limits:
+        memory: "2Gi"
+        cpu: "1"
+
+  scheduler:
+    resources:
+      requests:
+        memory: "512Mi"
+        cpu: "250m"
+      limits:
+        memory: "1Gi"
+        cpu: "500m"
+
+  db:
+    resources:
+      requests:
+        memory: "512Mi"
+        cpu: "250m"
+      limits:
+        memory: "1Gi"
+        cpu: "500m"
+
+  env:
+    - name: AIRBYTE_DATABASE_USER
+      value: "airbyte"
+    - name: AIRBYTE_DATABASE_PASSWORD
+      value: "airbyte"
+    - name: AIRBYTE_DATABASE_HOST
+      value: "airbyte-postgresql"
+    - name: AIRBYTE_DATABASE_PORT
+      value: "5432"
+    - name: AIRBYTE_DATABASE_NAME
+      value: "airbyte"
+    - name: MINIO_ACCESS_KEY
+      value: "minioadmin"
+    - name: MINIO_SECRET_KEY
+      value: "minioadmin"
